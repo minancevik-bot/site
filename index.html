@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AşkVar - Sevginin Adresi</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --pink: #e91e63;
+            --pink-light: #f8bbd0;
+            --pink-dark: #c2185b;
+            --red: #d32f2f;
+            --bg: #fff5f8;
+            --text: #4a2c3d;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Floating Hearts Background */
+        .hearts-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-heart {
+            position: absolute;
+            bottom: -50px;
+            font-size: 20px;
+            animation: floatUp linear infinite;
+            opacity: 0.15;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.15; }
+            50% { opacity: 0.25; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 15px 0;
+            box-shadow: 0 2px 20px rgba(233, 30, 99, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--pink);
+            text-decoration: none;
+        }
+
+        .logo span { color: var(--red); }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; left: 0;
+            width: 0; height: 2px;
+            background: var(--pink);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--pink); }
+        .nav-links a:hover::after { width: 100%; }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: var(--pink);
+            cursor: pointer;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 50%, #f48fb1 100%);
+            padding: 100px 20px;
+        }
+
+        .hero-content { position: relative; z-index: 1; }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(40px, 8vw, 80px);
+            color: var(--white);
+            text-shadow: 2px 4px 20px rgba(0,0,0,0.15);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero h1 .heart-icon {
+            display: inline-block;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            color: var(--red);
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            15% { transform: scale(1.3); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.2); }
+        }
+
+        .hero p {
+            font-size: clamp(16px, 2.5vw, 22px);
+            color: rgba(255,255,255,0.9);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--white);
+            color: var(--pink);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+            margin-left: 15px;
+        }
+
+        .btn-outline:hover {
+            background: var(--white);
+            color: var(--pink);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 100px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(30px, 5vw, 48px);
+            color: var(--text);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            font-size: 18px;
+            color: #888;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .section-title .divider {
+            width: 60px;
+            height: 3px;
+            background: var(--pink);
+            margin: 15px auto 0;
+            border-radius: 3px;
+        }
+
+        /* Love Quotes */
+        #sozler { background: var(--white); }
+
+        .quotes-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .quote-card {
+            background: linear-gradient(135deg, #fce4ec, #fff);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quote-card::before {
+            content: '\201C';
+            position: absolute;
+            top: 10px; left: 20px;
+            font-size: 80px;
+            color: var(--pink-light);
+            font-family: 'Playfair Display', serif;
+            line-height: 1;
+        }
+
+        .quote-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(233, 30, 99, 0.15);
+        }
+
+        .quote-card .quote-text {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--text);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quote-card .quote-author {
+            font-size: 14px;
+            color: var(--pink);
+            font-weight: 600;
+        }
+
+        /* Love Test */
+        #test {
+            background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%);
+        }
+
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 30px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 60px rgba(233, 30, 99, 0.1);
+            text-align: center;
+        }
+
+        .test-container h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: var(--text);
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .love-input {
+            padding: 15px 25px;
+            border: 2px solid var(--pink-light);
+            border-radius: 50px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            transition: border-color 0.3s;
+            text-align: center;
+        }
+
+        .love-input:focus { border-color: var(--pink); }
+
+        .love-input::placeholder { color: #ccc; }
+
+        .heart-between {
+            font-size: 30px;
+            color: var(--pink);
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        .result-area {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 20px;
+            display: none;
+        }
+
+        .result-area.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-percent {
+            font-family: 'Playfair Display', serif;
+            font-size: 72px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--pink), var(--red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .result-text {
+            font-size: 18px;
+            color: var(--text);
+            margin-top: 10px;
+        }
+
+        .result-bar {
+            width: 100%;
+            height: 12px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .result-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--pink), var(--red));
+            border-radius: 10px;
+            transition: width 1.5s ease;
+            width: 0;
+        }
+
+        /* Love Stories */
+        #hikayeler { background: var(--white); }
+
+        .stories-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .story-card {
+            background: var(--bg);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s;
+        }
+
+        .story-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(233, 30, 99, 0.12);
+        }
+
+        .story-img {
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            position: relative;
+        }
+
+        .story-img-1 { background: linear-gradient(135deg, #f8bbd0, #f48fb1); }
+        .story-img-2 { background: linear-gradient(135deg, #e1bee7, #ce93d8); }
+        .story-img-3 { background: linear-gradient(135deg, #ffcdd2, #ef9a9a); }
+
+        .story-body {
+            padding: 30px;
+        }
+
+        .story-body h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        .story-body p {
+            font-size: 15px;
+            color: #777;
+            line-height: 1.7;
+        }
+
+        .story-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            font-size: 13px;
+            color: #aaa;
+        }
+
+        .story-likes {
+            color: var(--pink);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .story-likes:hover { transform: scale(1.2); }
+
+        /* Love Letter Generator */
+        #mektup {
+            background: linear-gradient(135deg, #f3e5f5, #fce4ec);
+        }
+
+        .letter-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 30px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 60px rgba(233, 30, 99, 0.1);
+        }
+
+        .letter-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .letter-option {
+            padding: 12px;
+            border: 2px solid var(--pink-light);
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .letter-option:hover,
+        .letter-option.active {
+            background: var(--pink);
+            color: var(--white);
+            border-color: var(--pink);
+        }
+
+        .letter-option .opt-icon {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .letter-output {
+            background: #fffbf0;
+            border-radius: 15px;
+            padding: 30px;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 18px;
+            line-height: 1.9;
+            color: var(--text);
+            min-height: 150px;
+            display: none;
+            border: 1px dashed var(--pink-light);
+            position: relative;
+        }
+
+        .letter-output.show { display: block; animation: fadeIn 0.6s ease; }
+
+        .letter-output::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--pink), var(--red), var(--pink));
+        }
+
+        /* Countdown */
+        #sayac {
+            background: linear-gradient(135deg, #e91e63, #c2185b);
+            color: var(--white);
+            text-align: center;
+        }
+
+        #sayac .section-title h2,
+        #sayac .section-title p { color: var(--white); }
+        #sayac .section-title .divider { background: rgba(255,255,255,0.5); }
+
+        .countdown-input-area {
+            max-width: 500px;
+            margin: 0 auto 40px;
+        }
+
+        .countdown-input-area label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .date-input {
+            padding: 12px 25px;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 50px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            text-align: center;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .date-input::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+        }
+
+        .countdown-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .countdown-item {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px 20px;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .countdown-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            font-weight: 700;
+        }
+
+        .countdown-label {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text);
+            color: rgba(255,255,255,0.7);
+            padding: 50px 20px 30px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-heart {
+            font-size: 40px;
+            margin-bottom: 20px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        footer p {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        footer a {
+            color: var(--pink-light);
+            text-decoration: none;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .nav-links.open {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 60px; left: 0; right: 0;
+                background: var(--white);
+                padding: 20px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                gap: 15px;
+                align-items: center;
+            }
+            .menu-toggle { display: block; }
+            .hero .btn-outline { margin-left: 0; margin-top: 10px; }
+            .countdown-item { min-width: 80px; padding: 15px; }
+            .countdown-number { font-size: 32px; }
+            .test-container, .letter-container { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Floating Hearts Background -->
+<div class="hearts-bg" id="heartsBg"></div>
+
+<!-- Navbar -->
+<nav>
+    <div class="nav-container">
+        <a href="#" class="logo">Ask<span>Var</span></a>
+        <button class="menu-toggle" onclick="toggleMenu()">&#9776;</button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#sozler" onclick="closeMenu()">Sozler</a></li>
+            <li><a href="#test" onclick="closeMenu()">Ask Testi</a></li>
+            <li><a href="#hikayeler" onclick="closeMenu()">Hikayeler</a></li>
+            <li><a href="#mektup" onclick="closeMenu()">Mektup</a></li>
+            <li><a href="#sayac" onclick="closeMenu()">Sayac</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Sevginin <span class="heart-icon">&#10084;</span> Adresi</h1>
+        <p>Askin buyulu dunyasinda kaybol. Romantik sozler, ask hikayeleri ve daha fazlasi seni bekliyor.</p>
+        <a href="#sozler" class="btn btn-primary">Kesfet</a>
+        <a href="#test" class="btn btn-outline">Ask Testi Yap</a>
+    </div>
+</section>
+
+<!-- Love Quotes -->
+<section id="sozler">
+    <div class="section-title">
+        <h2>Ask Sozleri</h2>
+        <p>Kalplere dokunan en guzel sozler</p>
+        <div class="divider"></div>
+    </div>
+    <div class="quotes-grid">
+        <div class="quote-card">
+            <p class="quote-text">Seni sevmek, gunesin dogusunu izlemek gibi... Her seferinde ilk kez goruyor gibi hissediyorum.</p>
+            <span class="quote-author">&#10084; Anonim</span>
+        </div>
+        <div class="quote-card">
+            <p class="quote-text">Ask, iki ruhun ayni melodiyi farkli enstrumanlarla calmasidir.</p>
+            <span class="quote-author">&#10084; Mevlana</span>
+        </div>
+        <div class="quote-card">
+            <p class="quote-text">Dunyada en guzel sey, sevildigini hissetmek ve bunun icin sadece kendin olmanin yeterli olmasidir.</p>
+            <span class="quote-author">&#10084; Victor Hugo</span>
+        </div>
+        <div class="quote-card">
+            <p class="quote-text">Gercek ask, birbirini bulmak degil, birbirini kaybetmemek icin savasmaktir.</p>
+            <span class="quote-author">&#10084; Cemal Sureya</span>
+        </div>
+        <div class="quote-card">
+            <p class="quote-text">Sen benim en guzel tesadufum, en kadersel zorunlulugum, en vazgecilmez secimimsin.</p>
+            <span class="quote-author">&#10084; Nazim Hikmet</span>
+        </div>
+        <div class="quote-card">
+            <p class="quote-text">Ask, gozlerle baslar, kalple devam eder ve ruhta sonsuza kadar yasanir.</p>
+            <span class="quote-author">&#10084; Anonim</span>
+        </div>
+    </div>
+</section>
+
+<!-- Love Test -->
+<section id="test">
+    <div class="section-title">
+        <h2>Ask Uyum Testi</h2>
+        <p>Isimlerinizi yazin, uyumunuzu ogrenin!</p>
+        <div class="divider"></div>
+    </div>
+    <div class="test-container">
+        <h3>&#128156; Isimlerinizi Girin &#128156;</h3>
+        <div class="input-group">
+            <input type="text" class="love-input" id="name1" placeholder="Senin adin..." maxlength="30">
+            <div class="heart-between">&#10084;</div>
+            <input type="text" class="love-input" id="name2" placeholder="Sevgilinin adi..." maxlength="30">
+        </div>
+        <button class="btn btn-primary" onclick="calculateLove()" style="background: var(--pink); color: white; width: 100%;">
+            &#128150; Uyumu Hesapla &#128150;
+        </button>
+        <div class="result-area" id="resultArea">
+            <div class="result-percent" id="resultPercent">0%</div>
+            <div class="result-text" id="resultText"></div>
+            <div class="result-bar">
+                <div class="result-fill" id="resultFill"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Love Stories -->
+<section id="hikayeler">
+    <div class="section-title">
+        <h2>Ask Hikayeleri</h2>
+        <p>Ilham veren gercek ask hikayeleri</p>
+        <div class="divider"></div>
+    </div>
+    <div class="stories-grid">
+        <div class="story-card">
+            <div class="story-img story-img-1">&#128143;</div>
+            <div class="story-body">
+                <h3>Yagmurda Baslayan Ask</h3>
+                <p>Ayni otobuse yetismeye calisirken carpistilar. Yagmur altinda paylastiklari semsiyeleri, hayatlarinin geri kalanini paylasmalarina donustu.</p>
+                <div class="story-meta">
+                    <span>Elif & Kaan</span>
+                    <span class="story-likes" onclick="likeStory(this)">&#10084; <span>342</span></span>
+                </div>
+            </div>
+        </div>
+        <div class="story-card">
+            <div class="story-img story-img-2">&#128140;</div>
+            <div class="story-body">
+                <h3>10 Yillik Mektup</h3>
+                <p>Cocukluk arkadaslari olarak ayrildilar, 10 yil sonra eski bir kutuda buldugu mektup onu yeniden bulmasi icin cesaret verdi.</p>
+                <div class="story-meta">
+                    <span>Zeynep & Burak</span>
+                    <span class="story-likes" onclick="likeStory(this)">&#10084; <span>518</span></span>
+                </div>
+            </div>
+        </div>
+        <div class="story-card">
+            <div class="story-img story-img-3">&#128152;</div>
+            <div class="story-body">
+                <h3>Kahve Kokulu Ask</h3>
+                <p>Her sabah ayni kafede ayni masaya otururlardi. Bir gun bardaktaki not her seyi degistirdi: "Gulumsemen gunumu guzellestiyor."</p>
+                <div class="story-meta">
+                    <span>Selin & Emre</span>
+                    <span class="story-likes" onclick="likeStory(this)">&#10084; <span>427</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Love Letter Generator -->
+<section id="mektup">
+    <div class="section-title">
+        <h2>Ask Mektubu Olustur</h2>
+        <p>Bir tema sec, sana ozel bir mektup yazalim</p>
+        <div class="divider"></div>
+    </div>
+    <div class="letter-container">
+        <div class="letter-options">
+            <div class="letter-option" onclick="selectTheme(this, 'romantik')">
+                <span class="opt-icon">&#127801;</span>
+                Romantik
+            </div>
+            <div class="letter-option" onclick="selectTheme(this, 'ozlem')">
+                <span class="opt-icon">&#127769;</span>
+                Ozlem
+            </div>
+            <div class="letter-option" onclick="selectTheme(this, 'tutku')">
+                <span class="opt-icon">&#128293;</span>
+                Tutku
+            </div>
+            <div class="letter-option" onclick="selectTheme(this, 'siir')">
+                <span class="opt-icon">&#9997;</span>
+                Siirsel
+            </div>
+        </div>
+        <button class="btn btn-primary" onclick="generateLetter()" style="background: var(--pink); color: white; width: 100%; margin-bottom: 25px;">
+            &#128140; Mektup Olustur
+        </button>
+        <div class="letter-output" id="letterOutput"></div>
+    </div>
+</section>
+
+<!-- Love Countdown -->
+<section id="sayac">
+    <div class="section-title">
+        <h2>Ask Sayaci</h2>
+        <p>Birlikte gecirdiginiz zamani hesaplayin</p>
+        <div class="divider"></div>
+    </div>
+    <div class="countdown-input-area">
+        <label>Birlikte oldugunuz tarihi secin:</label>
+        <input type="date" class="date-input" id="anniversaryDate" onchange="calculateCountdown()">
+    </div>
+    <div class="countdown-grid" id="countdownGrid" style="display:none;">
+        <div class="countdown-item">
+            <div class="countdown-number" id="cdYears">0</div>
+            <div class="countdown-label">Yil</div>
+        </div>
+        <div class="countdown-item">
+            <div class="countdown-number" id="cdMonths">0</div>
+            <div class="countdown-label">Ay</div>
+        </div>
+        <div class="countdown-item">
+            <div class="countdown-number" id="cdDays">0</div>
+            <div class="countdown-label">Gun</div>
+        </div>
+        <div class="countdown-item">
+            <div class="countdown-number" id="cdHours">0</div>
+            <div class="countdown-label">Saat</div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-heart">&#10084;</div>
+    <p>AskVar &mdash; Sevginin Adresi</p>
+    <p style="margin-top: 10px; font-size: 13px; opacity: 0.6;">Askla yapildi &hearts; 2026</p>
+</footer>
+
+<script>
+// Floating hearts
+function createHearts() {
+    const bg = document.getElementById('heartsBg');
+    const hearts = ['&#10084;', '&#128150;', '&#128152;', '&#128156;', '&#10083;'];
+    for (let i = 0; i < 25; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'floating-heart';
+        heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.fontSize = (Math.random() * 20 + 14) + 'px';
+        heart.style.animationDuration = (Math.random() * 15 + 10) + 's';
+        heart.style.animationDelay = (Math.random() * 10) + 's';
+        bg.appendChild(heart);
+    }
+}
+createHearts();
+
+// Menu
+function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+}
+function closeMenu() {
+    document.getElementById('navLinks').classList.remove('open');
+}
+
+// Love Calculator
+function calculateLove() {
+    const n1 = document.getElementById('name1').value.trim();
+    const n2 = document.getElementById('name2').value.trim();
+    if (!n1 || !n2) { alert('Lutfen iki ismi de girin!'); return; }
+
+    let hash = 0;
+    const combined = (n1 + n2).toLowerCase();
+    for (let i = 0; i < combined.length; i++) {
+        hash = ((hash << 5) - hash) + combined.charCodeAt(i);
+        hash |= 0;
+    }
+    const percent = Math.abs(hash) % 51 + 50;
+
+    const messages = [
+        { min: 50, max: 60, text: 'Aranizda bir kivilcim var, biraz daha yakinlasin! ✨' },
+        { min: 61, max: 70, text: 'Guzel bir baslangic! Zamanla cok guzel olabilir. 🌺' },
+        { min: 71, max: 80, text: 'Harika bir uyum! Birbiriniz icin yaratilmissiniz. 💕' },
+        { min: 81, max: 90, text: 'Muhtesem bir cift olacaksiniz! Ask havada uçusuyor! 💘' },
+        { min: 91, max: 100, text: 'Kusursuz uyum! Bu ask bir omur boyu surecek! 💖' }
+    ];
+
+    const msg = messages.find(m => percent >= m.min && percent <= m.max);
+    const area = document.getElementById('resultArea');
+    area.classList.add('show');
+    document.getElementById('resultPercent').textContent = '%' + percent;
+    document.getElementById('resultText').textContent = msg.text;
+    setTimeout(() => {
+        document.getElementById('resultFill').style.width = percent + '%';
+    }, 100);
+}
+
+// Like stories
+function likeStory(el) {
+    const span = el.querySelector('span');
+    const current = parseInt(span.textContent);
+    if (el.dataset.liked) {
+        span.textContent = current - 1;
+        el.dataset.liked = '';
+        el.style.transform = 'scale(1)';
+    } else {
+        span.textContent = current + 1;
+        el.dataset.liked = 'true';
+        el.style.transform = 'scale(1.3)';
+        setTimeout(() => el.style.transform = 'scale(1)', 200);
+    }
+}
+
+// Love Letter
+let selectedTheme = '';
+const letters = {
+    romantik: [
+        'Sevgilim,\n\nSenin gulusun, karanliktaki en parlak yildiz gibi. Her bakisinda kalbim yeniden atmayi ogreniyor. Seninle gecen her an, hayatimin en degerli hazinesi.\n\nSeni sonsuz seviyorum.',
+        'Canim,\n\nGozlerinin icine baktigimda butun evreni goruyorum. Sen benim en guzel siirim, en tatli ruiyamsin. Seninle nefes almak, yasamin en guzel hediyesi.\n\nSonsuza dek seninleyim.',
+        'Birtanem,\n\nHer sabah gozlerimi actigimda ilk dusundugum sen oluyorsun. Seninle gecen her saniye, bir omre bedel. Kalbim sadece senin icin atiyor.\n\nAskim, seni cok seviyorum.'
+    ],
+    ozlem: [
+        'Sevgilim,\n\nSen yaninmda degilken, dunya sanki renklerini yitiriyor. Her esintide senin kokunu ariyorum, her sessizlikte senin sesini. Bir an once kavusmak icin saniyeleri sayiyorum.\n\nSeni ozluyorum, caresizce.',
+        'Canim,\n\nAramiza koyulan her kilometre, sana olan ozlemimi daha da buyutuyor. Gece gokyuzune baktigimda, ayni yildizlarin altinda oldugummuzu bilmek tek tesellim.\n\nKavusmak icin sabrsizlaniyorum.',
+        'Birtanem,\n\nSensiz gecen her gun, takvimden dustugu anlamini yitirmis bir yaprak gibi. Kokunu, gulusunu, sicakligini ozluyorum. Kavusacagimiz an, dunyanin en guzel ani olacak.\n\nHep seninleyim.'
+    ],
+    tutku: [
+        'Sevgilim,\n\nSen benim icimde yanan atesin ta kendisisin. Bakislarin ruhumu titretiyor, dokunuslarin kalbimi cayir cayir yakiyor. Sana olan tutkum, okyanuslar kadar derin.\n\nSonsuzluga kadar seninleyim.',
+        'Canim,\n\nSeninle ayni havada nefes almak bile kalbimi cilditrtiyor. Sen benim en buyuk tutkulm, en siddeti firtnam, en derin okyanusumsin. Sensiz bir saniye bile dusunmek istemiyorum.\n\nSeni delicesine seviyorum.',
+        'Birtanem,\n\nIcimde senin icin yanan bu ates, hic sonmeyecek bir yanardagi gibi. Her bakisinda kayboluyorum, her dokunusunda yeniden doguiyorum. Sen benim her seyimsin.\n\nTutkuyla, sonsuza dek.'
+    ],
+    siir: [
+        'Sevgilim,\n\nGozlerin iki damla yildiz,\nDudaklarin bahar muzigi.\nSeninle yazilmis her satir,\nSiirin en guzel dizgisi.\n\nKalbimde tasirim adini,\nHer nefeste, her anin.\nSen benim siirimsin,\nBitmeyen, sonsuz, inanilmaz.',
+        'Canim,\n\nYagmur damlar camima,\nHer damla senin adin.\nRuzgar fisildari gecede,\nHepsi sana olan ozlemin.\n\nSen olmasan gokyuzu bos,\nYildizlar anlamsiz.\nSensin hayatimin siiri,\nEn guzel, en yansiz.',
+        'Birtanem,\n\nAy yuzune vurur isigi,\nBen sana yazarim siiri.\nHer kelime bir kalp atisi,\nHer dize sana sevgi bicigi.\n\nSen benim ilham perim,\nKalemimin murekkebi.\nSonsuzluk seninle guzel,\nAskim, benim her seyim seninle.'
+    ]
+};
+
+function selectTheme(el, theme) {
+    document.querySelectorAll('.letter-option').forEach(o => o.classList.remove('active'));
+    el.classList.add('active');
+    selectedTheme = theme;
+}
+
+function generateLetter() {
+    if (!selectedTheme) { alert('Lutfen bir tema secin!'); return; }
+    const pool = letters[selectedTheme];
+    const letter = pool[Math.floor(Math.random() * pool.length)];
+    const output = document.getElementById('letterOutput');
+    output.textContent = letter;
+    output.classList.add('show');
+}
+
+// Countdown
+function calculateCountdown() {
+    const dateVal = document.getElementById('anniversaryDate').value;
+    if (!dateVal) return;
+
+    const start = new Date(dateVal);
+    const now = new Date();
+    if (start > now) { alert('Gecmis bir tarih secin!'); return; }
+
+    const grid = document.getElementById('countdownGrid');
+    grid.style.display = 'flex';
+
+    function update() {
+        const now = new Date();
+        const diff = now - start;
+        const totalDays = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const years = Math.floor(totalDays / 365);
+        const months = Math.floor((totalDays % 365) / 30);
+        const days = totalDays % 30;
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+        document.getElementById('cdYears').textContent = years;
+        document.getElementById('cdMonths').textContent = months;
+        document.getElementById('cdDays').textContent = days;
+        document.getElementById('cdHours').textContent = hours;
+    }
+
+    update();
+    setInterval(update, 60000);
+}
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+});
+
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.quote-card, .story-card, .test-container, .letter-container').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'all 0.6s ease';
+    observer.observe(el);
+});
+</script>
+
+</body>
+</html>
